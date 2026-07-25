@@ -1809,8 +1809,8 @@ body.theme-light .theme-toggle {
   filter:
     grayscale(1)
     saturate(0)
-    contrast(1.08)
-    brightness(0.38);
+    contrast(1.03)
+    brightness(0.62);
 
   transform: scale(1.06);
   animation: processBackgroundMove 18s ease-in-out infinite alternate;
