@@ -1914,3 +1914,117 @@ body.theme-light .theme-toggle {
       );
   }
 }
+/* =========================================================
+   HEADER RESPONSIVE FIX
+   ========================================================= */
+
+.site-header {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.brand {
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.brand-main,
+.brand-sub {
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .desktop-nav {
+    gap: 18px;
+  }
+
+  .desktop-nav a {
+    font-size: 13px;
+  }
+
+  .header-cta {
+    padding-inline: 16px;
+  }
+}
+
+@media (max-width: 980px) {
+  .site-header {
+    min-height: 72px;
+    padding: 12px 18px;
+
+    direction: rtl;
+    justify-content: space-between;
+  }
+
+  .desktop-nav,
+  .header-cta {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 9px;
+  }
+
+  .hamburger {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    min-height: 38px;
+    padding: 8px 12px;
+  }
+
+  .theme-toggle-text {
+    font-size: 11px;
+  }
+
+  .brand-main {
+    font-size: 15px;
+  }
+
+  .brand-sub {
+    margin-top: 5px;
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header {
+    padding-inline: 14px;
+  }
+
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .theme-toggle-text {
+    display: none;
+  }
+
+  .theme-toggle-icon {
+    font-size: 15px;
+  }
+
+  .brand-main {
+    font-size: 13px;
+  }
+
+  .brand-sub {
+    font-size: 7px;
+    letter-spacing: 0.15em;
+  }
+}
