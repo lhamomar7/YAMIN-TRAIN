@@ -1783,3 +1783,134 @@ body.theme-light .theme-toggle {
     right: 12px;
   }
 }
+/* =========================================================
+   PROCESS SECTION — CINEMATIC BACKGROUND
+   ========================================================= */
+
+.process-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  background: #090909;
+}
+
+.process-section::before {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  z-index: -3;
+
+  background-image: url("../yamin-champ.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 30%;
+
+  filter:
+    grayscale(1)
+    saturate(0)
+    contrast(1.08)
+    brightness(0.38);
+
+  transform: scale(1.06);
+  animation: processBackgroundMove 18s ease-in-out infinite alternate;
+
+  will-change:
+    transform,
+    background-position;
+}
+
+.process-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 5, 0.94) 0%,
+      rgba(5, 5, 5, 0.84) 35%,
+      rgba(5, 5, 5, 0.55) 62%,
+      rgba(5, 5, 5, 0.82) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(5, 5, 5, 0.96) 0%,
+      rgba(5, 5, 5, 0.35) 48%,
+      rgba(5, 5, 5, 0.72) 100%
+    );
+
+  pointer-events: none;
+}
+
+.process-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.process-section .section-heading h2,
+.process-section .timeline-item h3 {
+  color: #f4f1e9;
+}
+
+.process-section .timeline-item p {
+  color: rgba(244, 241, 233, 0.64);
+}
+
+.process-section .timeline-number {
+  background: rgba(8, 8, 8, 0.68);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  box-shadow:
+    0 0 0 1px rgba(201, 168, 76, 0.12),
+    0 16px 34px rgba(0, 0, 0, 0.3);
+}
+
+.process-section .timeline::before {
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(201, 168, 76, 0.62),
+      transparent
+    );
+}
+
+@keyframes processBackgroundMove {
+  0% {
+    background-position: center 22%;
+    transform: scale(1.06);
+  }
+
+  100% {
+    background-position: center 42%;
+    transform: scale(1.11);
+  }
+}
+@media (max-width: 720px) {
+  .process-section::before {
+    inset: -5%;
+
+    background-position: 58% 22%;
+
+    filter:
+      grayscale(1)
+      saturate(0)
+      contrast(1.06)
+      brightness(0.3);
+
+    animation-duration: 22s;
+  }
+
+  .process-section::after {
+    background:
+      linear-gradient(
+        0deg,
+        rgba(5, 5, 5, 0.98) 0%,
+        rgba(5, 5, 5, 0.82) 58%,
+        rgba(5, 5, 5, 0.48) 100%
+      );
+  }
+}
