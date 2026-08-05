@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>מערכת ניהול | TRAIN LIKE A PRO</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css?v=10">
+  <link rel="stylesheet" href="css/dashboard-layout.css?v=1">
+</head>
+
+<body class="dashboard-page">
+<div
+  class="mobile-sidebar-backdrop"
+  id="mobileSidebarBackdrop"
+  aria-hidden="true"
+></div>
+  <div class="admin-layout">
+    <aside class="sidebar" id="sidebar" aria-label="תפריט ניהול">
+      <div class="sidebar-brand">
+        <span class="brand-main">TRAIN LIKE A PRO</span>
+        <span class="brand-sub">ADMIN CONTROL</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" type="button" data-view="overview">
+          <span class="nav-symbol">◫</span>
+          <span>לוח בקרה</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="pipeline">
+          <span class="nav-symbol">▥</span>
+          <span>Pipeline</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="applications">
+          <span class="nav-symbol">◎</span>
+          <span>פניות ושאלונים</span>
+          <span class="nav-count" id="newCountBadge">0</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="calendar">
+          <span class="nav-symbol">▦</span>
+          <span>יומן ופגישות</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="tasks">
+          <span class="nav-symbol">✓</span>
+          <span>משימות</span>
+          <span class="nav-count subtle" id="openTasksBadge">0</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="content">
+          <span class="nav-symbol">✎</span>
+          <span>תוכן האתר</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="design">
+          <span class="nav-symbol">◐</span>
+          <span>עיצוב וצבעים</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="media">
+          <span class="nav-symbol">▣</span>
+          <span>תמונות ומדיה</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="questionnaire">
+          <span class="nav-symbol">☷</span>
+          <span>ניהול השאלון</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="seo">
+          <span class="nav-symbol">⌁</span>
+          <span>SEO ושיתוף</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="settings">
+          <span class="nav-symbol">⚙</span>
+          <span>הגדרות מערכת</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a id="clientSiteLink" href="#" target="_blank" rel="noopener">פתיחת אתר הלקוחות</a>
+        <button id="logoutButton" type="button">התנתקות</button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="topbar-title">
+          <button
+            class="menu-button"
+            id="menuButton"
+            type="button"
+            aria-label="פתיחת תפריט"
+            aria-controls="sidebar"
+            aria-expanded="false"
+          >☰</button>
+
+          <div>
+            <p class="eyebrow">מערכת ניהול עצמאית</p>
+            <h1 id="pageTitle">לוח בקרה</h1>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="autosave-status" id="autosaveIndicator" aria-live="polite">
+            <span class="autosave-dot"></span>
+            <span id="autosaveText">כל השינויים נשמרו</span>
+          </div>
+
+          <button class="secondary-button desktop-action" id="previewButton" type="button">תצוגה מקדימה</button>
+          <button class="primary-button desktop-action" id="saveButton" type="button">שמירה עכשיו</button>
+
+          <div class="notification-wrap">
+            <button
+              class="icon-button notification-button"
+              id="notificationButton"
+              type="button"
+              aria-label="התראות"
+              aria-expanded="false"
+              aria-controls="notificationPanel"
+            >
+              <span aria-hidden="true">🔔</span>
+              <span class="notification-badge" id="notificationBadge">0</span>
+            </button>
+
+            <section class="notification-panel" id="notificationPanel" aria-hidden="true">
+              <div class="notification-head">
+                <div>
+                  <p class="eyebrow">מרכז התראות</p>
+                  <h2>מה דורש תשומת לב?</h2>
+                </div>
+                <button class="icon-button small" id="closeNotifications" type="button" aria-label="סגירה">×</button>
+              </div>
+              <div class="notification-list" id="notificationList"></div>
+            </section>
+          </div>
+
+          <div class="manager-profile">
+            <div class="avatar">Y</div>
+            <div>
+              <strong>יאמן</strong>
+              <span>מנהל ראשי</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <!-- OVERVIEW -->
+        <section class="view active" data-view-panel="overview">
+          <section class="dashboard-hero panel">
+            <div class="dashboard-hero-copy">
+              <p class="eyebrow">TRAIN LIKE A PRO — BUSINESS CENTER</p>
+              <h2 id="dashboardGreeting">ערב טוב, יאמן</h2>
+              <p id="dashboardDate">הנה תמונת המצב שלך להיום.</p>
+
+              <div class="dashboard-hero-actions">
+                <button class="primary-button" type="button" data-jump="applications">צפייה בפניות</button>
+                <button class="secondary-button" type="button" data-open-task-modal>הוספת משימה</button>
+                <button class="secondary-button" type="button" data-open-event-modal>קביעת פגישה</button>
+              </div>
+            </div>
+
+            <div class="dashboard-hero-summary">
+              <div>
+                <span>היעד הקרוב</span>
+                <strong id="nextEventHero">אין פגישה קרובה</strong>
+                <small id="nextEventHeroTime">היומן פנוי</small>
+              </div>
+            </div>
+          </section>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-topline">
+                <span>פניות חדשות</span>
+                <span class="stat-icon">◎</span>
+              </div>
+              <strong id="statNew">0</strong>
+              <div class="trend-row">
+                <span class="trend-badge" id="trendNew">0%</span>
+                <small>מהשבוע שעבר</small>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-topline">
+                <span>סה״כ פניות</span>
+                <span class="stat-icon">Σ</span>
+              </div>
+              <strong id="statTotal">0</strong>
+              <div class="trend-row">
+                <span class="trend-badge" id="trendTotal">0%</span>
+                <small>פניות השבוע</small>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-topline">
+                <span>מתאימים לליווי</span>
+                <span class="stat-icon">✓</span>
+              </div>
+              <strong id="statQualified">0</strong>
+              <div class="trend-row">
+                <span class="trend-badge" id="trendQualified">0%</span>
+                <small>אחוז התאמה</small>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-topline">
+                <span>לקוחות שהצטרפו</span>
+                <span class="stat-icon">★</span>
+              </div>
+              <strong id="statJoined">0</strong>
+              <div class="trend-row">
+                <span class="trend-badge" id="trendJoined">0%</span>
+                <small>אחוז המרה</small>
+              </div>
+            </article>
+          </div>
+
+          <div class="overview-main-grid">
+            <article class="panel chart-panel chart-panel-wide">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">ANALYTICS</p>
+                  <h2>פניות בחצי השנה האחרונה</h2>
+                </div>
+                <span class="panel-chip">6 חודשים</span>
+              </div>
+              <div class="chart-wrap">
+                <canvas id="applicationsChart" aria-label="גרף פניות"></canvas>
+              </div>
+            </article>
+
+            <article class="panel chart-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">מקורות לידים</p>
+                  <h2>מאיפה מגיעים?</h2>
+                </div>
+              </div>
+              <div class="chart-wrap doughnut-wrap">
+                <canvas id="sourcesChart" aria-label="גרף מקורות פניות"></canvas>
+              </div>
+              <div class="chart-legend" id="sourcesLegend"></div>
+            </article>
+          </div>
+
+          <div class="overview-secondary-grid">
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">פעילות אחרונה</p>
+                  <h2>פניות חדשות</h2>
+                </div>
+                <button class="text-button" type="button" data-jump="applications">הצגת הכל</button>
+              </div>
+              <div id="recentApplications" class="recent-list"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">לו״ז</p>
+                  <h2>היום והקרוב</h2>
+                </div>
+                <button class="text-button" type="button" data-jump="calendar">יומן מלא</button>
+              </div>
+              <div class="agenda-list" id="dashboardAgenda"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">משימות</p>
+                  <h2>מה נשאר לבצע?</h2>
+                </div>
+                <button class="text-button" type="button" data-jump="tasks">כל המשימות</button>
+              </div>
+              <div class="task-list compact" id="dashboardTasks"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">יומן פעילות</p>
+                  <h2>שינויים אחרונים</h2>
+                </div>
+              </div>
+              <div class="activity-list" id="activityLog"></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- PIPELINE -->
+        <section class="view" data-view-panel="pipeline">
+          <div class="view-heading-row">
+            <div>
+              <p class="eyebrow">CRM PIPELINE</p>
+              <h2>ניהול לידים לפי שלב</h2>
+              <p>גרור כרטיס בין העמודות כדי לשנות סטטוס באופן מיידי.</p>
+            </div>
+            <button class="primary-button" type="button" data-jump="applications">פתיחת כל הפניות</button>
+          </div>
+
+          <div class="kanban-board" id="kanbanBoard">
+            <section class="kanban-column" data-status="חדש">
+              <header><span>חדש</span><strong data-kanban-count>0</strong></header>
+              <div class="kanban-list" data-kanban-list="חדש"></div>
+            </section>
+
+            <section class="kanban-column" data-status="נבדק">
+              <header><span>נבדק</span><strong data-kanban-count>0</strong></header>
+              <div class="kanban-list" data-kanban-list="נבדק"></div>
+            </section>
+
+            <section class="kanban-column" data-status="מתאים לליווי">
+              <header><span>מתאים</span><strong data-kanban-count>0</strong></header>
+              <div class="kanban-list" data-kanban-list="מתאים לליווי"></div>
+            </section>
+
+            <section class="kanban-column" data-status="נקבעה שיחה">
+              <header><span>נקבעה שיחה</span><strong data-kanban-count>0</strong></header>
+              <div class="kanban-list" data-kanban-list="נקבעה שיחה"></div>
+            </section>
+
+            <section class="kanban-column" data-status="הצטרף">
+              <header><span>הצטרף</span><strong data-kanban-count>0</strong></header>
+              <div class="kanban-list" data-kanban-list="הצטרף"></div>
+            </section>
+          </div>
+        </section>
+
+        <!-- APPLICATIONS -->
+        <section class="view" data-view-panel="applications">
+          <div class="view-toolbar applications-toolbar">
+            <div class="toolbar-filters">
+              <input id="applicationSearch" type="search" placeholder="חיפוש לפי שם, טלפון, מטרה או אימייל">
+              <select id="applicationStatusFilter">
+                <option value="">כל הסטטוסים</option>
+                <option>חדש</option>
+                <option>נבדק</option>
+                <option>מתאים לליווי</option>
+                <option>נקבעה שיחה</option>
+                <option>הצטרף</option>
+                <option>לא מתאים</option>
+                <option>ארכיון</option>
+              </select>
+            </div>
+
+            <div class="export-actions">
+              <button class="secondary-button" id="exportCsvButton" type="button">CSV</button>
+              <button class="secondary-button" id="exportExcelButton" type="button">Excel</button>
+              <button class="secondary-button" id="exportPdfButton" type="button">PDF</button>
+            </div>
+          </div>
+
+          <article class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>שם</th>
+                    <th>מטרה</th>
+                    <th>מקור</th>
+                    <th>טלפון</th>
+                    <th>תאריך</th>
+                    <th>סטטוס</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="applicationsBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <!-- CALENDAR -->
+        <section class="view" data-view-panel="calendar">
+          <div class="view-heading-row">
+            <div>
+              <p class="eyebrow">CALENDAR</p>
+              <h2>יומן פגישות ושיחות</h2>
+              <p>נהל שיחות התאמה, מעקבים ותזכורות במקום אחד.</p>
+            </div>
+            <button class="primary-button" type="button" data-open-event-modal>פגישה חדשה</button>
+          </div>
+
+          <div class="calendar-layout">
+            <article class="panel calendar-panel">
+              <div class="calendar-toolbar">
+                <button class="icon-button" id="calendarPrev" type="button" aria-label="חודש קודם">‹</button>
+                <h2 id="calendarMonthTitle">חודש</h2>
+                <button class="icon-button" id="calendarNext" type="button" aria-label="חודש הבא">›</button>
+              </div>
+
+              <div class="calendar-weekdays" aria-hidden="true">
+                <span>א׳</span><span>ב׳</span><span>ג׳</span><span>ד׳</span><span>ה׳</span><span>ו׳</span><span>ש׳</span>
+              </div>
+              <div class="calendar-grid" id="calendarGrid"></div>
+            </article>
+
+            <article class="panel calendar-side-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">היום שנבחר</p>
+                  <h2 id="selectedDateTitle">פגישות</h2>
+                </div>
+              </div>
+              <div class="agenda-list" id="selectedDateAgenda"></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- TASKS -->
+        <section class="view" data-view-panel="tasks">
+          <div class="view-heading-row">
+            <div>
+              <p class="eyebrow">TASK MANAGER</p>
+              <h2>משימות ומעקב</h2>
+              <p>כל הפעולות שצריך לבצע מול לידים ולקוחות.</p>
+            </div>
+            <button class="primary-button" type="button" data-open-task-modal>משימה חדשה</button>
+          </div>
+
+          <div class="task-filter-row">
+            <button class="task-filter active" type="button" data-task-filter="open">פתוחות</button>
+            <button class="task-filter" type="button" data-task-filter="today">להיום</button>
+            <button class="task-filter" type="button" data-task-filter="overdue">באיחור</button>
+            <button class="task-filter" type="button" data-task-filter="completed">הושלמו</button>
+            <button class="task-filter" type="button" data-task-filter="all">הכל</button>
+          </div>
+
+          <article class="panel">
+            <div class="task-list full" id="taskManagerList"></div>
+          </article>
+        </section>
+
+        <!-- CONTENT -->
+        <section class="view" data-view-panel="content">
+          <div class="editor-layout">
+            <aside class="section-tabs">
+              <button class="section-tab active" type="button" data-section="hero">פתיח ראשי</button>
+              <button class="section-tab" type="button" data-section="about">אודות</button>
+              <button class="section-tab" type="button" data-section="method">השיטה</button>
+              <button class="section-tab" type="button" data-section="fit">למי מתאים</button>
+              <button class="section-tab" type="button" data-section="process">תהליך</button>
+              <button class="section-tab" type="button" data-section="faq">שאלות נפוצות</button>
+              <button class="section-tab" type="button" data-section="contact">יצירת קשר</button>
+              <button class="section-tab" type="button" data-section="footer">פוטר</button>
+            </aside>
+
+            <article class="panel editor-panel">
+              <div class="section-editor active" data-section-panel="hero">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">תוכן האתר</p>
+                    <h2>פתיח ראשי</h2>
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <label class="field"><span>טקסט קטן</span><input data-setting="hero.eyebrow" type="text"></label>
+                  <label class="field"><span>כותרת</span><input data-setting="hero.title" type="text"></label>
+                  <label class="field"><span>הדגשה</span><input data-setting="hero.highlight" type="text"></label>
+                  <label class="field full"><span>תיאור</span><textarea data-setting="hero.description" rows="4"></textarea></label>
+                  <label class="field"><span>כפתור ראשי</span><input data-setting="hero.primaryButton" type="text"></label>
+                  <label class="field"><span>כפתור משני</span><input data-setting="hero.secondaryButton" type="text"></label>
+                </div>
+              </div>
+
+              <div class="section-editor" data-section-panel="about">
+                <div class="panel-header">
+                  <div><p class="eyebrow">תוכן האתר</p><h2>אודות המאמן</h2></div>
+                </div>
+                <div class="form-grid">
+                  <label class="field"><span>שם המאמן</span><input data-setting="about.title" type="text"></label>
+                  <label class="field"><span>כותרת משנה</span><input data-setting="about.subtitle" type="text"></label>
+                  <label class="field full"><span>פסקה ראשונה</span><textarea data-setting="about.paragraph1" rows="5"></textarea></label>
+                  <label class="field full"><span>פסקה שנייה</span><textarea data-setting="about.paragraph2" rows="5"></textarea></label>
+                  <label class="field full"><span>פסקה שלישית</span><textarea data-setting="about.paragraph3" rows="5"></textarea></label>
+                </div>
+              </div>
+
+              <div class="section-editor placeholder" data-section-panel="method"><h2>ניהול כרטיסי השיטה</h2><p>כאן יתווספו יצירה, עריכה, מחיקה וסידור של כל הכרטיסים.</p></div>
+              <div class="section-editor placeholder" data-section-panel="fit"><h2>ניהול התאמה לליווי</h2><p>כאן ינוהלו הרשימות של מתאים ולא מתאים.</p></div>
+              <div class="section-editor placeholder" data-section-panel="process"><h2>ניהול שלבי התהליך</h2><p>כאן יהיה ניתן להוסיף, למחוק ולסדר שלבים.</p></div>
+              <div class="section-editor placeholder" data-section-panel="faq"><h2>ניהול שאלות נפוצות</h2><p>כאן יהיה ניתן להוסיף שאלות ותשובות ללא שינוי קוד.</p></div>
+              <div class="section-editor placeholder" data-section-panel="contact"><h2>יצירת קשר</h2><p>כאן ינוהלו כותרת הטופס, הודעות והגדרות שליחה.</p></div>
+              <div class="section-editor placeholder" data-section-panel="footer"><h2>פוטר האתר</h2><p>כאן ינוהלו פרטי העסק, קישורים וזכויות יוצרים.</p></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- DESIGN -->
+        <section class="view" data-view-panel="design">
+          <div class="two-column-grid">
+            <article class="panel">
+              <div class="panel-header"><div><p class="eyebrow">מיתוג</p><h2>צבעי האתר</h2></div></div>
+              <div class="color-grid">
+                <label class="color-field"><span>צבע ראשי</span><input data-setting="design.gold" type="color"></label>
+                <label class="color-field"><span>צבע משני</span><input data-setting="design.goldLight" type="color"></label>
+                <label class="color-field"><span>רקע</span><input data-setting="design.background" type="color"></label>
+                <label class="color-field"><span>כרטיסים</span><input data-setting="design.surface" type="color"></label>
+                <label class="color-field"><span>טקסט</span><input data-setting="design.text" type="color"></label>
+                <label class="color-field"><span>טקסט משני</span><input data-setting="design.muted" type="color"></label>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header"><div><p class="eyebrow">תצוגה חיה</p><h2>דוגמת מותג</h2></div></div>
+              <div class="live-preview" id="livePreview">
+                <span>TRAIN LIKE</span><strong>A PRO</strong>
+                <p>תצוגה מקדימה של צבעי האתר</p>
+                <button type="button">בדיקת התאמה</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- MEDIA -->
+        <section class="view" data-view-panel="media">
+          <article class="panel">
+            <div class="panel-header">
+              <div><p class="eyebrow">ספריית מדיה</p><h2>תמונות וקבצים</h2></div>
+              <button class="primary-button" id="uploadButton" type="button">העלאת תמונה</button>
+            </div>
+            <input id="mediaInput" type="file" accept="image/*" hidden>
+            <div class="media-placeholder">
+              <span>▣</span>
+              <h3>חיבור אחסון המדיה יתבצע בשלב Cloudflare R2</h3>
+              <p>הממשק מוכן לבחירת תמונות, החלפה ומחיקה.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- QUESTIONNAIRE -->
+        <section class="view" data-view-panel="questionnaire">
+          <article class="panel">
+            <div class="panel-header">
+              <div><p class="eyebrow">טופס הלקוחות</p><h2>ניהול השאלון</h2></div>
+              <button class="primary-button" type="button">הוספת שאלה</button>
+            </div>
+            <div class="question-list" id="questionList"></div>
+          </article>
+        </section>
+
+        <!-- SEO -->
+        <section class="view" data-view-panel="seo">
+          <article class="panel">
+            <div class="panel-header"><div><p class="eyebrow">קידום ושיתוף</p><h2>SEO ורשתות חברתיות</h2></div></div>
+            <div class="form-grid">
+              <label class="field full"><span>כותרת הדף</span><input data-setting="seo.title" type="text"></label>
+              <label class="field full"><span>תיאור</span><textarea data-setting="seo.description" rows="4"></textarea></label>
+              <label class="field full"><span>כותרת לשיתוף</span><input data-setting="seo.ogTitle" type="text"></label>
+              <label class="field full"><span>תיאור לשיתוף</span><textarea data-setting="seo.ogDescription" rows="3"></textarea></label>
+            </div>
+          </article>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="view" data-view-panel="settings">
+          <div class="two-column-grid">
+            <article class="panel">
+              <div class="panel-header"><div><p class="eyebrow">פרטי מערכת</p><h2>הגדרות כלליות</h2></div></div>
+              <div class="form-grid">
+                <label class="field"><span>שם העסק</span><input data-setting="business.name" type="text"></label>
+                <label class="field"><span>שם המאמן</span><input data-setting="business.coachName" type="text"></label>
+                <label class="field"><span>טלפון</span><input data-setting="business.phone" type="tel"></label>
+                <label class="field"><span>אימייל</span><input data-setting="business.email" type="email"></label>
+                <label class="field full"><span>כתובת אתר הלקוחות</span><input data-setting="business.clientUrl" type="url"></label>
+              </div>
+            </article>
+
+            <article class="panel security-card">
+              <div class="panel-header"><div><p class="eyebrow">אבטחה</p><h2>שינוי סיסמה</h2></div></div>
+              <form class="form-grid" id="changePasswordForm">
+                <label class="field full">
+                  <span>סיסמה נוכחית</span>
+                  <input id="currentPasswordInput" type="password" autocomplete="current-password" required>
+                </label>
+                <label class="field">
+                  <span>סיסמה חדשה</span>
+                  <input id="newPasswordInput" type="password" autocomplete="new-password" minlength="8" required>
+                </label>
+                <label class="field">
+                  <span>אימות סיסמה חדשה</span>
+                  <input id="confirmPasswordInput" type="password" autocomplete="new-password" minlength="8" required>
+                </label>
+                <div class="field full">
+                  <button class="primary-button" type="submit" id="changePasswordButton">עדכון סיסמה</button>
+                  <div class="form-message" id="changePasswordMessage" role="status" aria-live="polite"></div>
+                </div>
+              </form>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- APPLICATION DRAWER -->
+  <aside class="drawer" id="applicationDrawer" aria-hidden="true">
+    <div class="drawer-backdrop" data-close-drawer></div>
+    <section class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <header class="drawer-header">
+        <div>
+          <p class="eyebrow">CLIENT CRM</p>
+          <h2 id="drawerTitle">שם לקוח</h2>
+          <span class="drawer-subtitle" id="drawerSubtitle"></span>
+        </div>
+        <button class="icon-button" type="button" data-close-drawer aria-label="סגירה">×</button>
+      </header>
+
+      <div class="drawer-tabs" role="tablist">
+        <button class="drawer-tab active" type="button" data-drawer-tab="general">כללי</button>
+        <button class="drawer-tab" type="button" data-drawer-tab="notes">הערות</button>
+        <button class="drawer-tab" type="button" data-drawer-tab="tasks">משימות</button>
+        <button class="drawer-tab" type="button" data-drawer-tab="communication">תקשורת</button>
+        <button class="drawer-tab" type="button" data-drawer-tab="activity">פעילות</button>
+      </div>
+
+      <div class="drawer-body">
+        <section class="drawer-tab-panel active" data-drawer-panel="general">
+          <div class="drawer-content" id="drawerContent"></div>
+          <label class="field">
+            <span>סטטוס</span>
+            <select id="drawerStatus">
+              <option>חדש</option>
+              <option>נבדק</option>
+              <option>מתאים לליווי</option>
+              <option>נקבעה שיחה</option>
+              <option>הצטרף</option>
+              <option>לא מתאים</option>
+              <option>ארכיון</option>
+            </select>
+          </label>
+          <button class="primary-button full-button" id="saveApplicationButton" type="button">שמירת סטטוס</button>
+        </section>
+
+        <section class="drawer-tab-panel" data-drawer-panel="notes">
+          <form class="inline-create-form" id="noteForm">
+            <label class="field">
+              <span>הערה חדשה</span>
+              <textarea id="newNoteText" rows="3" placeholder="למשל: דיברנו, מחכה להחלטה..."></textarea>
+            </label>
+            <button class="primary-button" type="submit">הוספת הערה</button>
+          </form>
+          <div class="notes-timeline" id="notesTimeline"></div>
+        </section>
+
+        <section class="drawer-tab-panel" data-drawer-panel="tasks">
+          <form class="inline-create-form" id="clientTaskForm">
+            <label class="field"><span>משימה</span><input id="clientTaskTitle" type="text" placeholder="להתקשר / לשלוח הצעה"></label>
+            <div class="form-grid">
+              <label class="field"><span>תאריך</span><input id="clientTaskDate" type="date"></label>
+              <label class="field"><span>שעה</span><input id="clientTaskTime" type="time"></label>
+            </div>
+            <button class="primary-button" type="submit">הוספת משימה</button>
+          </form>
+          <div class="task-list full" id="clientTasksList"></div>
+        </section>
+
+        <section class="drawer-tab-panel" data-drawer-panel="communication">
+          <div class="communication-grid">
+            <article class="communication-card">
+              <p class="eyebrow">WhatsApp</p>
+              <h3>הודעה מוכנה</h3>
+              <label class="field">
+                <span>תבנית</span>
+                <select id="whatsappTemplateSelect">
+                  <option value="intro">יצירת קשר ראשונית</option>
+                  <option value="call">תיאום שיחת התאמה</option>
+                  <option value="followup">מעקב לאחר שיחה</option>
+                  <option value="welcome">ברוך הבא לליווי</option>
+                </select>
+              </label>
+              <label class="field"><span>הודעה</span><textarea id="whatsappMessage" rows="7"></textarea></label>
+              <button class="primary-button full-button" id="openWhatsappButton" type="button">פתיחה ב־WhatsApp</button>
+            </article>
+
+            <article class="communication-card">
+              <p class="eyebrow">EMAIL</p>
+              <h3>טיוטת אימייל</h3>
+              <label class="field">
+                <span>תבנית</span>
+                <select id="emailTemplateSelect">
+                  <option value="intro">פנייה ראשונית</option>
+                  <option value="call">תיאום שיחה</option>
+                  <option value="followup">סיכום ומעקב</option>
+                  <option value="welcome">ברוך הבא</option>
+                </select>
+              </label>
+              <label class="field"><span>נושא</span><input id="emailSubject" type="text"></label>
+              <label class="field"><span>תוכן</span><textarea id="emailMessage" rows="6"></textarea></label>
+              <button class="secondary-button full-button" id="openEmailButton" type="button">פתיחה באימייל</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="drawer-tab-panel" data-drawer-panel="activity">
+          <div class="activity-list" id="clientActivityList"></div>
+        </section>
+      </div>
+    </section>
+  </aside>
+<div
+  class="mobile-sidebar-backdrop"
+  id="mobileSidebarBackdrop"
+  aria-hidden="true"
+></div>
+  <!-- TASK MODAL -->
+  <div class="admin-modal" id="taskModal" aria-hidden="true">
+    <div class="admin-modal-backdrop" data-close-task-modal></div>
+    <section class="admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+      <header class="admin-modal-head">
+        <div><p class="eyebrow">TASK MANAGER</p><h2 id="taskModalTitle">משימה חדשה</h2></div>
+        <button class="icon-button" type="button" data-close-task-modal aria-label="סגירה">×</button>
+      </header>
+
+      <form id="taskForm">
+        <label class="field"><span>כותרת המשימה</span><input id="taskTitle" type="text" required placeholder="למשל: להתקשר לעומר"></label>
+        <label class="field"><span>שיוך ללקוח</span><select id="taskApplication"><option value="">משימה כללית</option></select></label>
+        <div class="form-grid">
+          <label class="field"><span>תאריך</span><input id="taskDate" type="date" required></label>
+          <label class="field"><span>שעה</span><input id="taskTime" type="time"></label>
+          <label class="field"><span>עדיפות</span><select id="taskPriority"><option value="normal">רגילה</option><option value="high">גבוהה</option><option value="low">נמוכה</option></select></label>
+        </div>
+        <div class="modal-actions">
+          <button class="secondary-button" type="button" data-close-task-modal>ביטול</button>
+          <button class="primary-button" type="submit">שמירת משימה</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- EVENT MODAL -->
+  <div class="admin-modal" id="eventModal" aria-hidden="true">
+    <div class="admin-modal-backdrop" data-close-event-modal></div>
+    <section class="admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="eventModalTitle">
+      <header class="admin-modal-head">
+        <div><p class="eyebrow">CALENDAR</p><h2 id="eventModalTitle">פגישה חדשה</h2></div>
+        <button class="icon-button" type="button" data-close-event-modal aria-label="סגירה">×</button>
+      </header>
+
+      <form id="eventForm">
+        <label class="field"><span>כותרת</span><input id="eventTitle" type="text" required placeholder="למשל: שיחת התאמה עם עומר"></label>
+        <label class="field"><span>שיוך ללקוח</span><select id="eventApplication"><option value="">ללא שיוך</option></select></label>
+        <div class="form-grid">
+          <label class="field"><span>תאריך</span><input id="eventDate" type="date" required></label>
+          <label class="field"><span>שעה</span><input id="eventTime" type="time" required></label>
+          <label class="field"><span>סוג</span><select id="eventType"><option value="call">שיחת התאמה</option><option value="followup">מעקב</option><option value="meeting">פגישה</option><option value="other">אחר</option></select></label>
+        </div>
+        <label class="field"><span>הערה</span><textarea id="eventNotes" rows="3"></textarea></label>
+        <div class="modal-actions">
+          <button class="secondary-button" type="button" data-close-event-modal>ביטול</button>
+          <button class="primary-button" type="submit">שמירת פגישה</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+ <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<!-- בדיקת session אמיתית מול השרת; חייב להיות לפני admin.js -->
+<script src="js/session-guard.js?v=1"></script>
+
+<script src="js/admin.js?v=12"></script>
+
+<!-- חייב להיות אחרי admin.js -->
+<script src="js/navigation-fix.js?v=2"></script>
+</body>
+</html>

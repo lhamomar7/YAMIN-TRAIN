@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>כניסת מנהל | TRAIN LIKE A PRO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css?v=2">
+</head>
+<body class="login-page">
+  <main class="login-shell">
+    <section class="login-visual">
+      <div class="login-grid"></div>
+      <div class="login-glow"></div>
+      <div class="login-brand">
+        <span class="brand-main">TRAIN LIKE A PRO</span>
+        <span class="brand-sub">PRIVATE ADMIN SYSTEM</span>
+     
+    </section>
+
+    <section class="login-panel">
+      <div class="login-card">
+        <p class="eyebrow">גישה למנהל בלבד</p>
+        <h1>כניסת מנהל</h1>
+        <p class="login-copy">יש להזין את שם המשתמש והסיסמה של מנהל האתר.</p>
+
+        <form id="loginForm" novalidate>
+          <label class="field">
+            <span>שם משתמש</span>
+<label class="field">
+  <span>כתובת אימייל</span>
+
+  <input
+    id="email"
+    name="email"
+    type="email"
+    autocomplete="username"
+    placeholder="name@example.com"
+    required
+  >
+
+  <small class="field-error" id="emailError"></small>
+</label>            <small class="field-error" id="usernameError"></small>
+          </label>
+
+          <label class="field">
+            <span>סיסמה</span>
+            <div class="password-wrap">
+              <input id="password" name="password" type="password" autocomplete="current-password" placeholder="הזן סיסמה" required>
+              <button id="togglePassword" type="button" aria-label="הצגה או הסתרה של הסיסמה">הצגה</button>
+            </div>
+            <small class="field-error" id="passwordError"></small>
+          </label>
+
+          <label class="remember-row">
+            <input id="rememberMe" type="checkbox">
+            <span>זכור את שם המשתמש במכשיר הזה</span>
+          </label>
+
+          <button class="primary-button login-button" type="submit">
+            <span class="button-text">כניסה למערכת</span>
+            <span class="button-loading" hidden>מתחבר...</span>
+          </button>
+
+          <div class="form-message" id="loginMessage" role="status" aria-live="polite"></div>
+        </form>
+
+        <p class="demo-note">מערכת ניהול פרטית, הכניסה מותרת למנהל האתר בלבד.</p>
+      </div>
+    </section>
+  </main>
+  <script src="js/login.js?v=2"></script>
+</body>
+</html>
